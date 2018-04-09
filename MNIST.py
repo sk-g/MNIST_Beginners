@@ -16,9 +16,9 @@ warnings.filterwarnings("ignore")
 class Data():
 	def __init__(self,fpath='.',pca = False,n_components = None,method = None):
 		train = pd.read_csv('mnist_train.csv',error_bad_lines = False, sep=',')
-		test = pd.read_csv('mnist_test.csv',error_bad_lines = False, sep=',')
-		x_train = train.loc[:,train.columns != 'label']
-		y_train = train.loc[:,train.columns == 'label']
+		self.test = pd.read_csv('mnist_test.csv',error_bad_lines = False, sep=',')
+		self.x_train = train.loc[:,train.columns != 'label']
+		self.y_train = train.loc[:,train.columns == 'label']
 		self.pca = pca
 
 		if pca and not n_components:
@@ -33,13 +33,13 @@ class Data():
 		
 		# encoding the labels
 		label_encoder = LabelEncoder()
-		y_train = label_encoder.fit_transform(y_train)
-		x_train,x_valid,y_train,y_valid = split(x_train,y_train, shuffle = True, random_state = 14,test_size=0.25)
+		self.y_train = label_encoder.fit_transform(self.y_train)
+		self.x_train,self.x_valid,self.y_train,self.y_valid = split(self.x_train,self.y_train, shuffle = True, random_state = 14,test_size=0.25)
 		
 		# normalizing inputs
-		self.x_train,self.x_valid,self.test = normalize(x_train),preprocessing.normalize(x_valid),preprocessing.normalize(test)
-		self.y_train,self.y_valid = y_train,y_valid
-		del x_train,x_valid,y_train,y_valid
+		self.x_train,self.x_valid,self.test = normalize(self.x_train),normalize(self.x_valid),normalize(self.test)
+		
+
 		
 		class DataTransform():
 			def __init__(self,method = None,data = None,n_components = None):
@@ -69,7 +69,7 @@ class Data():
 			x_train_pca = DataTransform(data = self.x_train,n_components = self.n_components,method = self.method)
 			self.x_train_pca,self.x_train_decomp = x_train_pca.transform() 
 			self.x_valid_pca = self.x_train_decomp.fit_transform(self.x_valid)
-			self.test_pca = self.x_train_decomp.fit_transform(test)
+			self.test_pca = self.x_train_decomp.fit_transform(self.test)
 		else:
 			print("Using data without dimensionality reduction. Train data shape:{}".format(self.x_train.shape))
 	def explore():
@@ -127,7 +127,7 @@ class Classifier():
 
 
 def main():
-	sys.stdout = open('results','w')
+	sys.stdout = open('results.txt','w')
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--kernel', type=str, default= 'rbf',
 					   help='kernel for svm')
