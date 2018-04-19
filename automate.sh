@@ -1,4 +1,5 @@
 python MNIST.py --kernel='rbf' --components=100 --pca=0 --max_iter=100 --kernel=linear
+read -p "press Return to continue"
 python MNIST.py --kernel='rbf' --components=100 --pca=1 --max_iter=100
 python MNIST.py --kernel='rbf' --components=100 --pca=1 --max_iter=100 --method=sparse
 python MNIST.py --kernel='rbf' --components=100 --pca=1 --max_iter=100 --method=svd

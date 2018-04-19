@@ -1,3 +1,14 @@
+"""
+
+Here we use a typical convnet architecture,
+
+(Conv-Conv-pool) x 2
+
+In addition we will add batchnormalization and dropout
+after the pooling layer
+"""
+
+
 from __future__ import print_function
 import os,re,time,sys,os,math,random,time,pickle,collections,keras
 import pandas as pd

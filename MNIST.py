@@ -150,9 +150,6 @@ class Classifier():
 			self.train_score = self.svm_clf.score(data_object.x_train_pca,data_object.y_train)
 			return(self.train_score,self.valid_score)
 
-
-
-
 def main():
 	#sys.stdout = open('results.txt','w')
 	parser = argparse.ArgumentParser()
